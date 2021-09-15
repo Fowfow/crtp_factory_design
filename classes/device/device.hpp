@@ -13,7 +13,8 @@ protected:
 public:
     virtual ~device(){}
     virtual std::shared_ptr<device> clone() const = 0;
-    virtual void                  printId() const = 0;    
+    virtual void  printId() const {std::cout << "ID = " << id << "\nclassname = " << classname << std::endl << std::endl;}
+    inline friend std::ostream& operator<<(std::ostream& os, device const& dev);
 };
 // CRTP class
 template<class Derived>
@@ -29,7 +30,6 @@ protected:
     device_CRTP(device_CRTP&&)      = default;
 public:
     virtual std::shared_ptr<device> clone() const override {return std::make_shared<Derived>(derived());} 
-    virtual void                  printId() const override {std::cout << "ID = " << id << "\nclassname = " << classname << std::endl << std::endl;}
 };
 // Derived class
 class television : public device_CRTP<television>
@@ -55,4 +55,9 @@ public:
     console()                        {classname = "console"; id = "default console";}
     console(std::string const& str)  {classname = "console"; id = str;}
 };
-
+//
+inline std::ostream& operator<<(std::ostream& os, device const& dev)
+{
+    os << "ID = " << dev.id << ", classname = " << dev.classname << std::endl;
+    return os;
+} 
