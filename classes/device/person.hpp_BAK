@@ -1,0 +1,57 @@
+#pragma once
+
+#include <string>
+#include <iostream>
+
+
+// class person_CRTP_prototype
+// {
+// protected:    
+//     std::string classname;
+//     std::string id;
+// };
+// CRTP class
+
+
+template<class Derived>
+class person_CRTP 
+{ 
+protected:    
+    std::string classname;
+    std::string id;
+private:
+    Derived&        derived()       {return *static_cast<Derived*>(this);}
+    Derived const&  derived() const {return *static_cast<Derived const*>(this);}  
+public:
+    virtual Derived* clone() const {return new Derived(derived());}
+    virtual void printId() const {std::cout << "ID = " << id << "\nclassname = " << classname << std::endl << std::endl;}
+};
+// person
+class person : public person_CRTP<person>
+{
+public:
+    virtual ~person() = default;
+protected:
+    person(){std::cout << std::endl; classname = "person"; id = "default person";}
+    person(std::string str){std::cout << std::endl; classname = "person"; id = str;}
+
+};
+// Derived class
+class parent : public person
+{
+public:
+    virtual ~parent(){std::cout << "delete parent" << std::endl;}
+    parent():person("default parent"){classname = "parent";}
+    parent(std::string str):person(str){classname = "parent";}
+
+};
+// Derived class
+class child : public person
+{
+public:
+    virtual ~child(){std::cout << "delete child" << std::endl;}
+    child():person("default child"){classname = "child";}
+    child(std::string str):person(str){classname = "child";}
+};
+
+
