@@ -10,6 +10,7 @@
                 "classes/device/device_factory.cpp",
                 "classes/person/person_factory.cpp",
                 "-Iclasses",
+                "-std=c++17"
                 "-o",
                 "main_debug"// "${fileDirname}/${fileBasenameNoExtension}"
             ],
