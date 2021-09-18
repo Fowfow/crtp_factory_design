@@ -1,11 +1,8 @@
 #pragma once
 
 #include <string>
-#include <iostream>
 #include <memory>
 
-#include "counter/counter.hpp"
-#include "operators/equality.hpp"
 #include "prototype/prototype.hpp"
 
 // CRTP class
