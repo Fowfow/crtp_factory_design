@@ -6,12 +6,14 @@
 
 #include "operators/equality.hpp"
 #include "counter/counter.hpp"
+#include "clonable/clonable.hpp"
+
 
 template<class T>
 class has_get_size;
 
 // pure virtual base class : prototype
-class prototype : public equality_CRTP<prototype>, public counter_CRTP<prototype>
+class prototype : public equality_CRTP<prototype>, public counter_CRTP<prototype>, public clonable_CRTP<prototype>
 {
 protected:
     std::string m_classname;
@@ -20,8 +22,7 @@ protected:
 public:
     virtual ~prototype(){}
     double const& get_size() const {return m_size;}
-    virtual std::shared_ptr<prototype> clone() const = 0;
-    virtual void  printId() const {std::cout << "ID = " << m_id << "\nclassname = " << m_classname << std::endl << std::endl;}
+    void  printId() const {std::cout << "ID = " << m_id << "\nclassname = " << m_classname << std::endl << std::endl;}
     inline friend std::ostream& operator<<(std::ostream& os, prototype const& dev);
     inline friend bool operator<(prototype const&, prototype const&);
     template<class U>
@@ -56,7 +57,7 @@ private:
     typedef char NoType[2];
 
     template <class C> 
-    static YesType& test( decltype(&C::ToString) ) ;
+    static YesType& test( decltype(&C::get_size) ) ;
     template <class C> 
     static NoType& test(...);
 public:

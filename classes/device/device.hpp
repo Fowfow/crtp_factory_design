@@ -5,24 +5,8 @@
 
 #include "prototype/prototype.hpp"
 
-//
-// CRTP class
-template<class Derived>
-class device_CRTP : public prototype
-{
-private:
-    Derived&       derived()       {return static_cast<Derived      &>(*this);}
-    Derived const& derived() const {return static_cast<Derived const&>(*this);}
-protected:
-    virtual ~device_CRTP()          = default;
-    device_CRTP()                   = default;
-    device_CRTP(device_CRTP const&) = default;
-    device_CRTP(device_CRTP&&)      = default;
-public:
-    virtual std::shared_ptr<prototype> clone() const override {return std::make_shared<Derived>(derived());} 
-};
 // Derived class
-class television : public device_CRTP<television>
+class television : public prototype
 {
 public:
     virtual ~television(){}
@@ -30,7 +14,7 @@ public:
     television(std::string const& str, double const& sz=0){m_classname = "television"; m_id = str; m_size = sz;}
 };
 // Derived class
-class amplifier : public device_CRTP<amplifier>
+class amplifier : public prototype
 {
 public:
     virtual ~amplifier(){}   
@@ -38,7 +22,7 @@ public:
     amplifier(std::string const& str, double const& sz=0){m_classname = "amplifier"; m_id = str; m_size = sz;}
 };
 // Derived class
-class console : public device_CRTP<console>
+class console : public prototype
 {
 public:
     virtual ~console(){}    

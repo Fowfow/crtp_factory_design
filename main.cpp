@@ -12,7 +12,7 @@ int main(int argc, char* argv[])
     factory_device fac_dev;
     using factory_person = factory_person<prototype, std::string>;
     factory_person fac_per;    
-    factory_device::Register("television", std::make_shared<television>("TV", 8.0)); 
+    factory_device::Register("television", std::make_shared<television>("TV", 91.0)); 
     factory_person::Register("parent", std::make_shared<parent>("PAR", 9.0));
     std::shared_ptr<prototype> tv  = fac_dev.clone("television");
     std::shared_ptr<prototype> par = fac_per.clone("parent");
@@ -20,7 +20,6 @@ int main(int argc, char* argv[])
     std::cout << *(tv.get());
     std::cout << *(par.get());
     std::cout << "comparaison : " << ((*(tv.get()) <= *(par.get())) ? "True":"False") << std::endl;
-
 
     return EXIT_SUCCESS;
 }
